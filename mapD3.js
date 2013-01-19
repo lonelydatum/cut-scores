@@ -150,7 +150,13 @@ MapD3.prototype.setSubject = function (newSubject){
 		.style('stroke', this.styles[this.subject].dark)
 		.style('fill', function(d){						
 	    	return me.getColor(d.properties[me.trackThis]);
-	    });
+	    })
+	    .attr("id", function(d, i){
+	        return me.id+"_"+d.properties.ET_ID;
+	    })
+	    .style("fill-opacity", function(d){
+	    	return (d.properties[me.trackThis]=="NA") ? 0 : 1;
+	    })
 
 	    this.reset();
 	}
