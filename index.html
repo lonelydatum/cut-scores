@@ -117,6 +117,7 @@
 	
 		$(document).ready(function(){
 			
+			var infoToggle = $('#infoToggle');
 			var signal = { 
 				over: 					new signals.Signal(),
 				out: 					new signals.Signal(),
@@ -128,7 +129,7 @@
 			var styles = {
 				math:{ map: "#e7c6c6", dark: "#401414", bright: "#fa18d2" },
 				reading:{ map: "#a8cbcc", dark: "#3c6364", bright: "#0eedf4" },
-				science:{ map: "#ACCC83", dark: "#3B4F20", bright: "#8ef50b" }
+				science:{ map: "#a6bf88", dark: "#3B4F20", bright: "#8ef50b" }
 			}
 
 			
@@ -146,31 +147,49 @@
 			}
 
 			function showInfo(){
+				$('.subject').animate({opacity:.15}, 500);
 				$("#toggle").html("HIDE");
-				$("#infoToggle").css("width", "800px");
+				infoToggle.css("width", "800px");
 				$("div#conent").show();
 				$("div#credit").show();
 			}
 
 			function hideInfo(){
+				if($('.subject').css('opacity')<1){
+					$('.subject').animate({opacity:1});
+				}
 				$("#toggle").html("SHOW");
-				$("#infoToggle").css("width", "100px");
+				infoToggle.css("width", "100px");
 				$("div#conent").hide();
 				$("div#credit").hide();
 			}
 						
 			function centerToggle(){
 				var leftPos = ($(window).width() - parseInt($("#infoToggle").css("width"))) * .5;
-				$("#infoToggle").css("left", leftPos)
+				infoToggle.css("left", leftPos)
 			}
 
 
-			$.getJSON('js/list_.json', function(d){				
+			$.getJSON('js/list_.json.gz', function(d){				
 				collection = d;				
+				
+				transIn();
+
 				var mapMath = new MapCourse( "math", signal, styles );
 				var mapReading = new MapCourse( "reading", signal, styles );			
 				var mapScience = new MapCourse( "science", signal, styles );	
+				
 			});
+
+
+			function transIn(){
+				infoToggle.css('top', '-'+infoToggle.css('height'));				
+				infoToggle.show();
+				infoToggle.animate({top:0}, 2000);
+
+				$('.subject').css('visibility', 'visible');
+				$('.subject').css('opacity', .15);				
+			}
 
 
 

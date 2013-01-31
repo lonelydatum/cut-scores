@@ -79,8 +79,6 @@ var MapD3 = function( id, signal, styles, scale  ){
 	    })
 	    .style('stroke', this.styles[this.subject].dark)
 		.on("mouseover", function(d, i){	
-			 
-  		    
 		    me.signal.over.dispatch(d.properties.ET_ID, this);
 		})
 		.on("mouseout", function(d, i){		    	
@@ -129,7 +127,7 @@ MapD3.prototype.getColor = function(d) {
 
 MapD3.prototype.highlightLayer = function (){		
 	this.selectedView.style("stroke", this.styles[this.subject].bright)	
-	this.selectedView.style("stroke-width", 1.6)	
+	this.selectedView.style("stroke-width", 1.2)	
 }
 MapD3.prototype.resetLayer = function (){		
 	this.selectedView.style("stroke", this.styles[this.subject].dark)	

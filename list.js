@@ -38,6 +38,7 @@ var List = function(subject, signal, styles){
 	this.signal.subjectChange.add(function(newSubject, colID){		
 		if($("#"+me.id).index() == colID){
 			me.setSubject(newSubject);	
+			_gaq.push(['_trackEvent', 'cutscores', 'change subject', newSubject])	
 		}		
 	})
 
@@ -77,7 +78,8 @@ List.prototype.setSubject = function(subject){
 	$("#" + subject + " select").val(capital);
 		
 	var me = this;
-	$("#" + this.id + " select").change(function(){		
+	$("#" + this.id + " select").change(function(){	
+
 		me.signal.subjectChange.dispatch($(this).val().toLowerCase(), $("#"+me.id).index());
 	});
 
@@ -89,9 +91,9 @@ List.prototype.setSubject = function(subject){
 	    	return 'list_'+me.id+"_"+d.properties.ET_ID;
 	    })
 	    .html(function(d, i){        	
-	        var score = d.properties[me.trackThis];
+	        var score = d.properties[me.trackThis] * 100;
 	        var name = d.properties.NAME;
-	        var s = (!isNaN(parseFloat(score)) && isFinite(score)) ? score.toFixed(3) : 0;        	
+	        var s = (!isNaN(parseFloat(score)) && isFinite(score)) ? score.toFixed(2) : 0;        	
 	        var str = '<p width="100px" class="list_score">' + s + '</p><p  class="list_district">' + name + '</p>';        	
 	        return str;
 	    });
@@ -122,6 +124,7 @@ List.prototype.scrollToListItem = function(){
 
 
 List.prototype.sortByScores = function(){
+	_gaq.push(['_trackEvent', 'cutscores', 'sort by scores', this.trackThis])
 	var me = this;	
 	this.d3List.sort(function(a,b){
 			if(a.properties[me.trackThis] == "NA") return 1;
@@ -132,6 +135,7 @@ List.prototype.sortByScores = function(){
 }
 
 List.prototype.sortByDistrict = function(){	
+	_gaq.push(['_trackEvent', 'cutscores', 'sort by district', this.trackThis])
 	this.d3List.sort(function(a,b){		
 		return (a.properties.NAME > b.properties.NAME) ? 1 : -1;				
 	})
